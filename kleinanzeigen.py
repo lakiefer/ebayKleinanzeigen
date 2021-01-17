@@ -101,7 +101,7 @@ def delete_ad(driver, ad):
 
     if ad_id_elem is None:
         try:
-            ad_id_elem = driver.find_element_by_xpath("//a[contains(text(), '%s')]/../../../../.." % ad["title"])
+            ad_id_elem = driver.find_element_by_xpath("//a[text()='%s')]/../../../../.." % ad["title"])
         except NoSuchElementException:
             log.info("\tNot found by title")
 
@@ -315,11 +315,12 @@ def post_ad(driver, ad, interactive):
     text_area.send_keys(config["glob_contact_name"])
     fake_wait()
 
-    if config["glob_street"]:
-        text_area = driver.find_element_by_id('pstad-street')
-        text_area.clear()
-        text_area.send_keys(config["glob_street"])
-        fake_wait()
+# no need for global street
+#     if config["glob_street"]:
+#         text_area = driver.find_element_by_id('pstad-street')
+#         text_area.clear()
+#         text_area.send_keys(config["glob_street"])
+#         fake_wait()
 
     # Upload images from photofiles
     if "photofiles" in ad:
@@ -363,7 +364,7 @@ def post_ad(driver, ad, interactive):
                         total_upload_time < 30:
                     fake_wait(500)
                     total_upload_time += 0.5
-                
+
                 if uploaded_count == len(driver.find_elements_by_class_name("imagebox-thumbnail")):
                     log.warning("\tCould not upload image: %s within %s seconds" % (file_path_abs, total_upload_time))
                 else:
@@ -482,8 +483,8 @@ if __name__ == '__main__':
     profile_write(sProfile, config)
     login(config)
     fake_wait(randint(1000, 4000))
-    for ad in config['ads']:
-        assert len(ad["title"]) > 9, "eBay restriction: Title must be at least 10 chars long"
+#    for ad in config['ads']:
+#        assert len(ad["title"]) > 9, "eBay restriction: Title must be at least 10 chars long"
 
     for ad in config["ads"]:
 
