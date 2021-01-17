@@ -101,7 +101,7 @@ def delete_ad(driver, ad):
 
     if ad_id_elem is None:
         try:
-            ad_id_elem = driver.find_element_by_xpath("//a[text()='%s')]/../../../../.." % ad["title"])
+            ad_id_elem = driver.find_element_by_xpath("//a[normalize-space(text())=normalize-space('%s')]/../../../../.." % ad["title"])
         except NoSuchElementException:
             log.info("\tNot found by title")
 
